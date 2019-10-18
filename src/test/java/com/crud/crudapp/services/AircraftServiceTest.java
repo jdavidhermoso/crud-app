@@ -1,7 +1,7 @@
-package com.crud.crudapp.services_layer;
+package com.crud.crudapp.services;
 
 import com.crud.crudapp.models.Aircraft;
-import com.crud.crudapp.repository_layer.AircraftRepository;
+import com.crud.crudapp.repository.AircraftRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

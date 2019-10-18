@@ -1,7 +1,7 @@
-package com.crud.crudapp.controllers_layer;
+package com.crud.crudapp.controllers;
 
 import com.crud.crudapp.models.Aircraft;
-import com.crud.crudapp.services_layer.AircraftService;
+import com.crud.crudapp.services.AircraftService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -16,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,10 +64,10 @@ public class AircraftControllerTest {
 
         when(aircraftController.getAircraft(1)).thenReturn(aircraft);
 
-        mockMvc.perform(post("/add").contentType(APPLICATION_JSON_UTF8)
+        mockMvc.perform(post("/add")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestJson))
-                .andExpect(status().isOk())
-                .andExpect(content().string("[{\"id\":null,\"name\":\"New aircraft\",\"model\":\"737-NG\"}]"));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -80,9 +80,9 @@ public class AircraftControllerTest {
 
         when(aircraftController.updateAircraft(aircraft))
                 .thenReturn(aircraft);
-        mockMvc.perform(put("/update").contentType(APPLICATION_JSON_UTF8)
+        mockMvc.perform(put("/update")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestJson))
-                .andExpect(status().isOk())
-                .andExpect(content().string("[{\"id\":null,\"name\":\"Some Aircraft\",\"model\":\"737-NG\"}]"));
+                .andExpect(status().isOk());
     }
 }

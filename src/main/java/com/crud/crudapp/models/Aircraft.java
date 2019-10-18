@@ -29,11 +29,11 @@ public class Aircraft {
         this.name = name;
     }
 
-    public String getModel() {
+    public String getmodel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setmodel(String model) {
         this.model = model;
     }
 

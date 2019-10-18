@@ -1,9 +1,9 @@
-package com.crud.crudapp.controllers_layer;
+package com.crud.crudapp.controllers;
 
 import com.crud.crudapp.models.Aircraft;
+import com.crud.crudapp.services.AircraftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.crud.crudapp.services_layer.AircraftService;
 
 import java.util.List;
 
