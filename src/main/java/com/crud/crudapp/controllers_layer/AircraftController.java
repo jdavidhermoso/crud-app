@@ -2,9 +2,7 @@ package com.crud.crudapp.controllers_layer;
 
 import com.crud.crudapp.models.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.crud.crudapp.services_layer.AircraftService;
 
 import java.util.List;
@@ -13,11 +11,11 @@ import java.util.List;
 public class AircraftController {
 
     @Autowired
-    private final AircraftService aircraftService;
+    private AircraftService aircraftService;
 
-    public AircraftController(final AircraftService aircraftService) {
-        this.aircraftService = aircraftService;
-    }
+//    public AircraftController(final AircraftService aircraftService) {
+//        this.aircraftService = aircraftService;
+//    }
 
     @GetMapping(value = "/list")
     public List<Aircraft> getAllAircrafts() {
@@ -25,13 +23,22 @@ public class AircraftController {
     }
 
     @GetMapping(value = "/get/{id}")
-    public Aircraft getAllAircraft(@PathVariable("id") final Integer id) {
+    public Aircraft getAircraft(@PathVariable("id") final Integer id) {
         return aircraftService.getSingleAircraft(id);
     }
 
-    @GetMapping(value = "/add")
-    public Aircraft getAllAircraft() {
-        Aircraft aircraft = new Aircraft("New cool aircraft", "737-MAX");
+    @PostMapping(value = "/add")
+    public Aircraft createAircraft(@RequestBody final Aircraft aircraft) {
         return aircraftService.saveAircraft(aircraft);
+    }
+
+    @PutMapping(value = "/update")
+    public Aircraft updateAircraft(@RequestBody final Aircraft aircraft) {
+        return aircraftService.saveAircraft(aircraft);
+    }
+
+    @DeleteMapping(value = "/delete")
+    public Aircraft deleteAircraft(@RequestBody final Integer id) {
+        return aircraftService.deleteAircraft(id);
     }
 }
