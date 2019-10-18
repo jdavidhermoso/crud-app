@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "73101c63-b5e7-424a-93d6-59fcaf3dce2c",
+		"name": "CRUD APP",
+		"description": "Collection of tests to try CRUD API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ADD Aircraft",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13342c1d-85a0-4767-9bb1-aa878c89b921",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check new aircraft name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"New Aircraft\");",
+							"});",
+							"",
+							"pm.test(\"Check new aircraft name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.model).to.eql(\"Boeing-737 MAX\");",
+							"    pm.environment.set(\"aircraft_id\", jsonData.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Aircraft\",\n\t\"model\": \"Boeing-737 MAX\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/aircraft",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"aircraft"
+					]
+				},
+				"description": "This request sends a POST request to add a new AirCraft"
+			},
+			"response": []
+		},
+		{
+			"name": "List all aircrafts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73d4a0a4-fcc1-4e69-90be-fcd6ac40fad5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"List retrieves at least one Aircraft\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.be.above(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/aircraft/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"aircraft",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single aircraft",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73d4a0a4-fcc1-4e69-90be-fcd6ac40fad5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"New Aircraft\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/aircraft/{{aircraft_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"aircraft",
+						"{{aircraft_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Aircraft",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1b97706-d268-47a6-ade6-dcd98bd06c02",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Aircraft updated\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": {{aircraft_id}},\n\t\"name\": \"Aircraft updated\",\n\t\"model\": \"737-NG\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/aircraft",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"aircraft"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Aircraft",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "307e4769-eefe-4a5e-a899-54c1491342b6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Delete aircraft\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"aircraft_id\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/aircraft/{{aircraft_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"aircraft",
+						"{{aircraft_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -24,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = AircraftController.class)
 public class AircraftControllerTest {
 
+    private String endPointPath = "/aircraft/";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -37,7 +39,7 @@ public class AircraftControllerTest {
     public void getShouldReturnStatusOkAndEmptyList() throws Exception {
         when(aircraftController.getAllAircrafts())
                 .thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/list"))
+        mockMvc.perform(get(endPointPath + "all"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("[]"));
     }
@@ -48,7 +50,7 @@ public class AircraftControllerTest {
         List<Aircraft> aircraftsList = Arrays.asList(aircraft);
         when(aircraftController.getAllAircrafts())
                 .thenReturn(aircraftsList);
-        mockMvc.perform(get("/list"))
+        mockMvc.perform(get(endPointPath + "all"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("[{\"id\":null,\"name\":\"Cool aircraft\",\"model\":\"737-NG\"}]"));
     }
@@ -64,7 +66,7 @@ public class AircraftControllerTest {
 
         when(aircraftController.getAircraft(1)).thenReturn(aircraft);
 
-        mockMvc.perform(post("/add")
+        mockMvc.perform(post(endPointPath)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestJson))
                 .andExpect(status().isOk());
@@ -80,7 +82,23 @@ public class AircraftControllerTest {
 
         when(aircraftController.updateAircraft(aircraft))
                 .thenReturn(aircraft);
-        mockMvc.perform(put("/update")
+        mockMvc.perform(put(endPointPath)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(requestJson))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteShouldReturnStatusOk() throws Exception {
+        Aircraft aircraft = new Aircraft("Some Aircraft", "737-NG");
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(aircraft);
+
+        when(aircraftController.updateAircraft(aircraft))
+                .thenReturn(aircraft);
+        mockMvc.perform(delete(endPointPath + "1")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(requestJson))
                 .andExpect(status().isOk());
